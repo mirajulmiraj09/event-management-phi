@@ -1,0 +1,67 @@
+
+{% extends "base.html" %}
+{% load user_tags %}
+{% block title %}
+    {% if event_form.instance.pk %}Create Event{% else %}Create Event{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Navbar -->
+<nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">🎉 Event Management</h1>
+    <div class="space-x-4">
+        {% if request.user.is_authenticated %}
+            {% if request.user.is_superuser %}
+                <!-- Admin -->
+                <a href="{% url 'admin-dashboard' %}" class="hover:underline">Dashboard</a>
+                <a href="{% url 'create-event' %}" class="hover:underline">Create Event</a>
+
+            {% elif request.user|has_group:"Organizer" %}
+                <!-- Organizer -->
+                <a href="{% url 'organizer-dashboard' %}" class="hover:underline">Dashboard</a>
+                <a href="{% url 'create-event' %}" class="hover:underline">Create Event</a>
+            {% endif %}
+
+            <!-- Logout -->
+            <a href="{% url 'sign-out' %}" class="hover:underline">Logout</a>
+
+        {% else %}
+            <!-- Not logged-in -->
+            <a href="{% url 'sign-in' %}" class="hover:underline">Sign In</a>
+            <a href="{% url 'sign-up' %}" class="hover:underline">Sign Up</a>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- Event Form -->
+<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md mt-6">
+    <h1 class="text-2xl font-bold mb-6">
+        {% if event_form.instance.pk %} Edit Event {% else %} Create Event {% endif %}
+    </h1>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+
+        <!-- Event fields -->
+        <div>
+            {{ event_form.as_p }}
+        </div>
+
+        <!-- Category fields -->
+        <h2 class="text-lg font-semibold mt-4">Category</h2>
+        <div>
+            {{ category_form.as_p }}
+        </div>
+
+        <!-- Form actions -->
+        <div class="flex space-x-4 mt-6">
+            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                {% if event_form.instance.pk %} Update {% else %} Create {% endif %}
+            </button>
+            <a href="{% url 'organizer-dashboard' %}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

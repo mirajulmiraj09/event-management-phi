@@ -1,0 +1,24 @@
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+  <div class="bg-white rounded-xl shadow-md p-6 text-center">
+    <h2 class="text-gray-500 text-sm">Total Events</h2>
+    <p class="text-2xl font-bold text-rose-600">{{ counts.total_events }}</p>
+  </div>
+  <div class="bg-white rounded-xl shadow-md p-6 text-center">
+    <h2 class="text-gray-500 text-sm">Total Participants</h2>
+    <p class="text-2xl font-bold text-rose-600">{{ counts.total_participants }}</p>
+  </div>
+  <div class="bg-white rounded-xl shadow-md p-6 text-center">
+    <h2 class="text-gray-500 text-sm">Upcoming Events</h2>
+    <p class="text-2xl font-bold text-rose-600">{{ counts.upcoming_events }}</p>
+  </div>
+  <div class="bg-white rounded-xl shadow-md p-6 text-center">
+    <h2 class="text-gray-500 text-sm">Past Events</h2>
+    <p class="text-2xl font-bold text-rose-600">{{ counts.past_events }}</p>
+  </div>
+</section>
+<div class="mb-4">
+  <a href="?type=all" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">All</a>
+  <a href="?type=today" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Today</a>
+  <a href="?type=upcoming" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Upcoming</a>
+  <a href="?type=past" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Past</a>
+</div>

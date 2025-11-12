@@ -1,0 +1,96 @@
+{% extends "base.html" %}  
+
+{% block title %}Admin- Dashboard{% endblock %}
+
+
+
+{% block content %}
+
+ <nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">🎉 Event Management</h1>
+    <div class="space-x-4">
+      <a href="{% url 'admin-dashboard' %}" class="hover:underline">Dashboard</a>
+      <a href="{% url 'create-event' %}" class="hover:underline">Create Event</a>
+        
+
+      
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'sign-out' %}" class="hover:underline">Logout</a>
+    {% else %}
+        <a href="{% url 'sign-in' %}" class="hover:underline">Sign in</a>
+    {% endif %}
+    </div>
+  </nav>
+
+
+
+
+   {% include "stat_card.html" %}
+
+  <main class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-3 gap-6">
+  
+  <!-- Left side: Event List -->
+  <div class="col-span-2">
+    <!-- Static Search Bar -->
+    <div class="mb-4 flex justify-end">
+      <input type="text" placeholder="Search events..." class="px-3 py-2 rounded border w-1/3 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      <button class="ml-2 px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Search</button>
+    </div>
+
+    <!-- Event List -->
+    {% include "card.html" %}
+
+  </div>
+
+  <!-- Right side: Sidebar -->
+  <aside class="col-span-1 space-y-6">
+
+      <!-- Categories -->
+    <div class="bg-white p-4 rounded shadow">
+  <div class="flex items-center justify-between mb-2">
+    <h3 class="font-semibold">Categories</h3>
+    <a href="{% url 'add-category' %}" 
+       class="text-sm px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+       Add
+    </a>
+  </div>
+
+  <ul class="space-y-2 max-h-80 overflow-y-auto">
+    {% for category in categories %}
+    <li class="flex items-center justify-between">
+      <div>{{ category.name }}</div>
+      <div class="text-sm text-gray-500">{{ category.events.count }} events</div>
+    </li>
+    {% empty %}
+    <li class="text-gray-500">No categories available</li>
+    {% endfor %}
+  </ul>
+</div>
+
+
+    <!-- Participants -->
+    <div class="bg-white p-4 rounded shadow">
+      <div class="flex items-center justify-between mb-2">
+        <h3 class="font-semibold">Participants</h3>
+        <a href="#" class="text-sm text-indigo-600">View all</a>
+      </div>
+      <ul class="space-y-2 max-h-80 overflow-y-auto">
+        {% for participant in participants %}
+        <li class="flex items-center justify-between">
+          <div>
+            <div class="font-medium">{{ participant.username }}</div>
+            <div class="text-xs text-gray-500">{{ participant.email }}</div>
+          </div>
+          <div class="text-sm text-gray-500">RSVP: {{ participant.rsvped_events.count }}</div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+  
+  </aside>
+
+</main>
+
+
+{% endblock %}

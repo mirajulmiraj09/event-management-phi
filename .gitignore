@@ -1,0 +1,5 @@
+db.sqlite3
+node_modules/
+media/
+event_env/
+__pycache__/

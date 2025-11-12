@@ -1,0 +1,44 @@
+
+    <!-- Event List -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+      {% for event in events %}
+      <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-200 overflow-hidden flex flex-col h-96">
+        {% if event.image %}
+        <img src="{{ event.image.url }}" alt="{{ event.name }}" class="h-40 w-full object-cover">
+        {% endif %}
+        <div class="p-4 flex-1 flex flex-col">
+          <h3 class="text-lg font-bold text-rose-600">{{ event.name }}</h3>
+          <p class="text-sm text-gray-600">{{ event.category }}</p>
+          <p class="text-sm text-gray-500">{{ event.date|date:"M d, Y H:i" }}</p>
+
+          <!-- Description with scroll if content overflows -->
+          <div class="text-gray-700 mt-2 flex-1 overflow-y-auto">
+            <p class="line-clamp-none">{{ event.description }}</p>
+          </div>
+
+          <div class="flex justify-between items-center mt-4">
+            <span class="text-sm text-gray-600">Participants: {{ event.participants.count }}</span>
+            <div class="flex gap-1">
+
+              <a href="{% url 'view-event' event.id %}" class="px-2 py-1 text-sm border rounded">View</a>
+              <a href="{% url 'edit-event' event.id %}" class="px-2 py-1 text-sm border rounded">Edit</a>
+              
+              <form action="{% url 'delete-event' event.id %}" method="post" onsubmit="return confirm('Are you sure?');">
+                {% csrf_token %}
+                <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
+                    Delete
+                </button>
+            </form>
+
+              <form action="{% url 'rsvp-event' event.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="px-2 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700">RSVP</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No events found.</p>
+      {% endfor %}
+    </section>

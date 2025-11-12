@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-7">
+                    <div>
+                        <a href="#" class="flex items-center py-4 px-2">
+                            <span class="font-bold text-2xl text-indigo-600">Event<span class="text-gray-900">Flow</span></span>
+                        </a>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-1">
+                        
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-3">
+                    <a href="{% url 'sign-in' %}" class="py-2 px-4 font-medium text-white bg-indigo-600 rounded hover:bg-indigo-500 transition duration-300 shadow-md">
+                        Login
+                    </a>
+                    <a href="{% url 'sign-up' %}" class="py-2 px-4 font-medium text-white bg-indigo-600 rounded hover:bg-indigo-500 transition duration-300 shadow-md">
+                        Sign Up
+                    </a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button class="outline-none mobile-menu-button">
+                        <svg class="w-6 h-6 text-gray-500 hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+<section class="my-16">
+     <header class="bg-gray-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0">
+            <img class="w-full h-full object-cover opacity-40" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Event crowd background" />
+        </div>
+        
+        <div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-shadow-lg">
+                Find Your Next <span class="text-indigo-400">Unforgettable Event</span>
+            </h1>
+            <p class="mt-6 max-w-3xl text-xl text-gray-300">
+                From tech conferences to music festivals, discover and book events happening near you or online.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row sm:gap-4 gap-3">
+                <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl transition duration-300">
+                    Browse Events
+                </a>
+                <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-2 border-white text-base font-medium rounded-md text-white bg-transparent hover:bg-white hover:text-indigo-600 shadow-xl transition duration-300">
+                    Host Event Info
+                </a>
+            </div>
+        </div>
+    </header>
+</section>
+    
+
+<!-- Events Section -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6 my">
+    {% for event in events %}
+    <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-200 overflow-hidden flex flex-col h-96">
+        {% if event.image %}
+            <img src="{{ event.image.url }}" alt="{{ event.name }}" class="h-40 w-full object-cover">
+        {% else %}
+            <div class="h-40 w-full bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>
+        {% endif %}
+        <div class="p-4 flex-1 flex flex-col">
+            <h3 class="text-lg font-bold text-rose-600">{{ event.name }}</h3>
+            <p class="text-sm text-gray-600">{{ event.category.name }}</p>
+            <p class="text-sm text-gray-500">{{ event.date|date:"M d, Y H:i" }}</p>
+
+            <div class="text-gray-700 mt-2 flex-1 overflow-y-auto">
+                <p class="line-clamp-none">{{ event.description }}</p>
+           <div class="flex justify-center bg-gray-100 py-2">
+            <a href="{% url 'sign-in' %}" class="mt-2 block text-indigo-600 hover:text-indigo-800 font-semibold bg-white px-4 py-2 rounded-lg shadow-md">
+                RSVP &rarr;
+            </a>
+        </div>
+
+    </div>
+    {% empty %}
+    <p>No events found.</p>
+    {% endfor %}
+</section>
+
+
+{% endblock content %}

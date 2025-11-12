@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body>
+    
+    <div class="w-1/2 mx-auto mt-10 rounded bg-gray-400">
+        <div class="text-black shadow-sm flex justify-center"><p>This is Regisration Form</p></div>
+        <form action="" method="POST" class="w-full max-w-md p-4">
+            {% csrf_token %}
+            {% if messages %}
+            {% for message in messages %}
+              <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-400{% endif %}">{{ message }}</div>
+            {% endfor %}
+          
+        {% endif %}
+           {% if form.non_field_errors %}
+            <div class="text-red-500 text-sm mb-4">
+                {% for error in form.non_field_errors %}
+                  <p>{{error}}</p>
+                {% endfor %}
+            </div>
+           {% endif %}
+           {% for field in form %}
+             <div class="mb-2">
+                <label for="{{field.id_for_label}}" class="text-black font-semibold">
+                    {{field.label}}
+                </label> {{field}}
+
+                {% if field.errors %}
+                    <ul class="text-red-500 text-sm mt-1">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+             </div>
+           {% endfor %}
+           <button type="submit" class="bg-green-400 shadow-sm px-4 py-2 rounded mt-3 mb-6">
+                Sign Up
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>
